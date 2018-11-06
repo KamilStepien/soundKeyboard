@@ -23,24 +23,38 @@
     </div>
     
     Record<input type="checkbox" value = "Record" id = "_record">
+    Record<input type="checkbox" value = "Record" id = "_record1">
     <input type="submit" value = "Play" id = "_play">
 
   
    <script>
     //tablica dzwieków
-    const Sound =  [new Audio("Sound/boom.wav"),new Audio("Sound/clap.wav"),new Audio("Sound/snare.wav")]; 
-    
+    const Sound =  [new Audio("Sound/boom.wav"),new Audio("Sound/clap.wav"),new Audio("Sound/snare.wav"),new Audio("Sound/tink.wav"),new Audio("Sound/ride.wav")]; 
+    Sound[0].currentTime = 0;
+    Sound[1].currentTime = 0;
+    Sound[2].currentTime = 0;
+    Sound[3].currentTime = 0;
+    Sound[4].currentTime = 0;
     
     
     let record = document.querySelector("#_record");
+    let record1 = document.querySelector("#_record1");
     let play = document.querySelector("#_play");
+
     //zmienne odpowiedzialne za czas 
-    let d = new Date();
     let time;
-    let tab = new Array();
-    let path1 = new Array();;
+    let path1 = [];
+    let path2 = [];
     //
     record.addEventListener( 'change', function() {
+    if(this.checked) {
+        d = new Date();
+        time = d.getTime();
+        tab = [];
+        
+    }
+    });
+    record1.addEventListener( 'change', function() {
     if(this.checked) {
         d = new Date();
         time = d.getTime();
@@ -50,48 +64,40 @@
     });
 
     
-    
-    play.addEventListener('click' ,   function SoundReader()
-    {
-        
-        for(let a = 0 ; a< path1.length ; a+=2) 
-               {
-                
-                setTimeout( soundPlay(path1[a+1]) , (path1[a]) );
-                setTimeout(function(){ alert(path1[a]+","+path1[a+1])  }, path1[a]);
-                //console.log(path1[a]+","+path1[a+1] );
-               }
-        
+    play.addEventListener('click' ,  function(){
+        SoundReader(path1);
+        SoundReader(path2);
     });
-    
-
-    
-
+  
+    //Reagowanie na przycisk 
     document.body.addEventListener('keypress', (e) =>
-    {
-        
-     
+    {  
         soundPlay(e.charCode);
+        if(document.querySelector("#_record").checked == true)
         path1 = RecordPath(e.charCode);
-       
+        if(document.querySelector("#_record1").checked == true)
+        path2 = RecordPath(e.charCode);
+        
     })
+
+
+
     // Funkcja zapisu scieżki dzwiękowej
     function RecordPath(_charCode)
         {
             // zmienna odpowiedzialna za czas 
             d = new Date();
             
-           
+            
              
             //console.log(document.querySelector("#_record").checked );
-            if(document.querySelector("#_record").checked == true)
-            {
+           
                
                 tab.push(d.getTime() - time , _charCode);
                 //console.log( d.getTime() - time);
                 return tab;
                 
-            }
+            
           
            
            
@@ -99,16 +105,15 @@
         }
 
     // Funkcja odczytująca  scieżke dzwiękową
-     /*   function SoundReader(tab)
+    function SoundReader(tab)
     {
-        console.log("to");
+       
         for(let a = 0 ; a< tab.length ; a+=2) 
                {
-                console.log("to1");
-                setTimeout(tab[a] , soundPlay(tab[a+1]) )
+                setTimeout(function(){soundPlay(tab[a+1])} , tab[a] );
                }
        
-    }*/
+    }
 
     //fukcja otwarzająca odpowiedni dzwiek
     function soundPlay(_charCode )
@@ -121,6 +126,10 @@
             case 119: Sound[1].play();
             break;
             case 101: Sound[2].play();
+            break;
+            case 114: Sound[3].play();
+            break;
+            case 97: Sound[4].play();
             break;
             
         }
