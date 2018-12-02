@@ -4,137 +4,321 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+    <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
 <body>
 
-    <div id= "BoxWithButtons">
-           
-            <div class = "whiteButton" id="a" ></div>
-            <div class = "whiteButton" ></div>
-            <div class = "whiteButton" ></div>
-            <div class = "whiteButton" ></div>
-            <div class = "whiteButton" ></div>
-            <div class = "whiteButton" ></div>
-            <div class = "whiteButton" ></div>
-            <div class = "whiteButton" ></div>
-            <div class = "whiteButton" ></div>
-    </div>
-    
-    Record<input type="checkbox" value = "Record" id = "_record">
-    Record<input type="checkbox" value = "Record" id = "_record1">
-    <input type="submit" value = "Play" id = "_play">
-
-  
-   <script>
-    //tablica dzwieków
-    const Sound =  [new Audio("Sound/boom.wav"),new Audio("Sound/clap.wav"),new Audio("Sound/snare.wav"),new Audio("Sound/tink.wav"),new Audio("Sound/ride.wav")]; 
-    Sound[0].currentTime = 0;
-    Sound[1].currentTime = 0;
-    Sound[2].currentTime = 0;
-    Sound[3].currentTime = 0;
-    Sound[4].currentTime = 0;
-    
-    
-    let record = document.querySelector("#_record");
-    let record1 = document.querySelector("#_record1");
-    let play = document.querySelector("#_play");
-
-    //zmienne odpowiedzialne za czas 
-    let time;
-    let path1 = [];
-    let path2 = [];
-    //
-    record.addEventListener( 'change', function() {
-    if(this.checked) {
-        d = new Date();
-        time = d.getTime();
-        tab = [];
-        
-    }
-    });
-    record1.addEventListener( 'change', function() {
-    if(this.checked) {
-        d = new Date();
-        time = d.getTime();
-        tab = new Array();
-        
-    }
-    });
-
-    
-    play.addEventListener('click' ,  function(){
-        SoundReader(path1);
-        SoundReader(path2);
-    });
-  
-    //Reagowanie na przycisk 
-    document.body.addEventListener('keypress', (e) =>
-    {  
-        soundPlay(e.charCode);
-        if(document.querySelector("#_record").checked == true)
-        path1 = RecordPath(e.charCode);
-        if(document.querySelector("#_record1").checked == true)
-        path2 = RecordPath(e.charCode);
-        
-    })
-
-
-
-    // Funkcja zapisu scieżki dzwiękowej
-    function RecordPath(_charCode)
-        {
-            // zmienna odpowiedzialna za czas 
-            d = new Date();
+    <div id = "PianoBoard">
+        <div id= "BoxWithButtons">
             
-            
-             
-            //console.log(document.querySelector("#_record").checked );
-           
-               
-                tab.push(d.getTime() - time , _charCode);
-                //console.log( d.getTime() - time);
-                return tab;
+                <div class = "WhiteButton"  > <div class = "BlackButton"></div> </div>
+                <div class = "WhiteButton" > <div class = "BlackButton"></div></div>
+                <div class = "WhiteButton" > </div>
+                <div class = "WhiteButton" > <div class = "BlackButton"></div></div>
+                <div class = "WhiteButton" > <div class = "BlackButton"></div></div>
+                <div class = "WhiteButton" > <div class = "BlackButton"></div></div>
+                <div class = "WhiteButton" > </div>
+                <div class = "WhiteButton" > <div class = "BlackButton"></div></div>
+                <div class = "WhiteButton" ><div class = "BlackButton"></div></div>
+                <div class = "WhiteButton" > </div>
                 
-            
-          
-           
-           
-           
-        }
-
-    // Funkcja odczytująca  scieżke dzwiękową
-    function SoundReader(tab)
-    {
-       
-        for(let a = 0 ; a< tab.length ; a+=2) 
-               {
-                setTimeout(function(){soundPlay(tab[a+1])} , tab[a] );
-               }
-       
-    }
-
-    //fukcja otwarzająca odpowiedni dzwiek
-    function soundPlay(_charCode )
-    {
-        
-        switch(_charCode)
-        {
-            case 113: Sound[0].play();
-            break;
-            case 119: Sound[1].play();
-            break;
-            case 101: Sound[2].play();
-            break;
-            case 114: Sound[3].play();
-            break;
-            case 97: Sound[4].play();
-            break;
-            
-        }
-    }
-
-    </script>
+        </div>
+    </div>  
+    
+    <input type="submit" value = "Play" id = "_play">
+   
+    <div class ="recordPath">
+            Record<input type="checkbox" value = "Record" id = "_checkboxRecord">
+            Play<input type="checkbox" value = "Record" id = "_checkboxPlay"><br>
+            <canvas width="10000" height="100" id="CanvasElemRecord"></canvas>
+    </div>
+    <div class ="recordPath">
+            Record<input type="checkbox" value = "Record" id = "_checkboxRecord1">
+            Play<input type="checkbox" value = "Record" id = "_checkboxPlay1"><br>
+            <canvas width="10000" height="100" id="CanvasElemRecord1"></canvas>
+    </div>
+    <div class ="recordPath">
+            Record<input type="checkbox" value = "Record" id = "_checkboxRecord2">
+            Play<input type="checkbox" value = "Record" id = "_checkboxPlay2"><br>
+            <canvas width="10000" height="100" id="CanvasElemRecord2"></canvas>
+    </div>
+    <div class ="recordPath">
+            Record<input type="checkbox" value = "Record" id = "_checkboxRecord3">
+            Play<input type="checkbox" value = "Record" id = "_checkboxPlay3"><br>
+            <canvas width="10000" height="100" id="CanvasElemRecord3"></canvas>
+    </div>
+   
+   
+    
+  
+   
 </body>
+<script>
+        //canvas
+        let canvasElemRecord = document.querySelector('#CanvasElemRecord');
+        let ctxRecord = canvasElemRecord.getContext('2d');
+        let canvasElemRecord1 = document.querySelector('#CanvasElemRecord1');
+        let ctxRecord1 = canvasElemRecord1.getContext('2d');
+        let canvasElemRecord2 = document.querySelector('#CanvasElemRecord2');
+        let ctxRecord2 = canvasElemRecord2.getContext('2d');
+        let canvasElemRecord3 = document.querySelector('#CanvasElemRecord3');
+        let ctxRecord3 = canvasElemRecord3.getContext('2d');
+       
+        //tablica dzwieków
+        const Sound =  [new Audio("Sound1/0.wav"),new Audio("Sound1/1.wav"),new Audio("Sound1/2.wav"),new Audio("Sound1/3.wav"),new Audio("Sound1/4.wav"),new Audio("Sound1/5.wav"),new Audio("Sound1/6.wav"),new Audio("Sound1/7.wav"),new Audio("Sound1/8.wav"),new Audio("Sound1/9.wav")]; 
+        Sound[0].currentTime = 0;
+        Sound[1].currentTime = 0;
+        Sound[2].currentTime = 0;
+        Sound[3].currentTime = 0;
+        Sound[4].currentTime = 0;
+        Sound[5].currentTime = 0;
+        Sound[6].currentTime = 0;
+        Sound[7].currentTime = 0;
+        Sound[8].currentTime = 0;
+        Sound[9].currentTime = 0;
+        
+        let whiteButton = document.querySelectorAll(".WhiteButton");
+        let checkboxRecord = document.querySelector("#_checkboxRecord");
+        let checkboxRecord1 = document.querySelector("#_checkboxRecord1");
+        let checkboxRecord2 = document.querySelector("#_checkboxRecord2");
+        let checkboxRecord3 = document.querySelector("#_checkboxRecord3");
+        let checkboxPlay = document.querySelector("#_checkboxPlay");
+        let checkboxPlay1 = document.querySelector("#_checkboxPlay1");
+        let checkboxPlay2 = document.querySelector("#_checkboxPlay2");
+        let checkboxPlay3 = document.querySelector("#_checkboxPlay3");
+        let play = document.querySelector("#_play");
+    
+        //zmienne odpowiedzialne za czas 
+        let time;
+        //zmiene przechowujące tablice z dziekami
+        let path1 = [];
+        let path2 = [];
+        let path3 = [];
+        let path4 = [];
+        //
+    
+        // zdarzenia do checkbox po odzaczenie czyści scieżkę i canvasa 
+        // pierwsza scieżka
+        checkboxRecord.addEventListener( 'change', function() {
+        if(this.checked) {
+            d = new Date();
+            time = d.getTime();
+            tab = [];
+            ctxRecord.clearRect(0, 0, 10000, 1000);
+            drawStaff(ctxRecord);
+           
+        }
+        });
+          // druga scieżka
+          checkboxRecord1.addEventListener( 'change', function() {
+        if(this.checked) {
+            d = new Date();
+            time = d.getTime();
+            tab= new Array();
+            ctxRecord1.clearRect(0, 0, 10000, 1000);
+            drawStaff(ctxRecord1);
+        }
+        });
+           // trzecia scieżka
+           checkboxRecord2.addEventListener( 'change', function() {
+        if(this.checked) {
+            d = new Date();
+            time = d.getTime();
+            tab = new Array();
+            ctxRecord2.clearRect(0, 0, 10000, 1000);
+            drawStaff(ctxRecord2);
+        }
+        });
+           // czwarta scieżka
+           checkboxRecord3.addEventListener( 'change', function() {
+        if(this.checked) {
+            d = new Date();
+            time = d.getTime();
+            tab = new Array();
+            ctxRecord3.clearRect(0, 0, 10000, 1000);
+            drawStaff(ctxRecord3);
+        }
+        });
+    
+        //odpalanie zapisanych dzwieków
+        play.addEventListener('click' ,  function(){
+
+            if(checkboxPlay.checked == true)
+            SoundReader(path1);
+            if(checkboxPlay1.checked == true)
+            SoundReader(path2);
+            if(checkboxPlay2.checked == true)
+            SoundReader(path3);
+            if(checkboxPlay3.checked == true)
+            SoundReader(path4);
+
+            
+        });
+      
+        //Reagowanie na przycisk , nagrywanie do odpowiedniej scieżki 
+        document.body.addEventListener('keypress', (e) =>
+        {  
+            soundPlay(e.charCode);
+            if(checkboxRecord.checked == true)
+            path1 = RecordPath(e.charCode , ctxRecord);
+            if(checkboxRecord1.checked == true)
+            path2 = RecordPath(e.charCode , ctxRecord1);
+            if(checkboxRecord2.checked == true)
+            path3 = RecordPath(e.charCode , ctxRecord2);
+            if(checkboxRecord3.checked == true)
+            path4 = RecordPath(e.charCode , ctxRecord3);
+            
+        })
+    
+    
+    
+        // Funkcja zapisu scieżki dzwiękowej
+        function RecordPath(_charCode , _canvas)
+            {
+                // zmienna odpowiedzialna za czas 
+                d = new Date();
+                let newTime = (d.getTime() - time);
+                
+                 
+                   
+                    drawNote(_canvas ,newTime , _charCode )
+                    //zapisywanie do tablicy czasu od początku rozpoczecia zapisu i kodu klawisza
+                    tab.push(d.getTime() - time , _charCode);
+                    //console.log( d.getTime() - time);
+                    return tab;
+                    
+                
+              
+               
+               
+               
+            }
+    
+        // Funkcja odczytująca  scieżke dzwiękową
+        function SoundReader(tab)
+        {
+           
+            for(let a = 0 ; a< tab.length ; a+=2) 
+                   {
+                    setTimeout(function(){soundPlay(tab[a+1])} , tab[a] );
+                   }
+           
+        }
+    
+        //funkcja odpowiedzialna z graficzne pokazanie klikniecia przycisku 
+        function GraficClickButton(idButton , colorButton , colorButtonDown)
+        {
+            idButton.style.backgroundColor = colorButton;
+            
+            setTimeout(()=>
+            {
+                idButton.style.backgroundColor = colorButtonDown
+               
+            },200)
+        }
+    
+        //fukcja otwarzająca odpowiedni dzwiek
+        function soundPlay(_charCode )
+        {
+            console.log(_charCode);
+            switch(_charCode)
+            {
+                case 113: Sound[0].play();
+                GraficClickButton(whiteButton[0], "rgba(190, 186, 186, 0.473)" , "white");
+                break;
+                case 119: Sound[1].play();
+                GraficClickButton(whiteButton[1], "rgba(190, 186, 186, 0.473)" , "white");
+                break;
+                case 101: Sound[2].play();
+                GraficClickButton(whiteButton[2], "rgba(190, 186, 186, 0.473)" , "white");
+                break;
+                case 114: Sound[3].play();
+                GraficClickButton(whiteButton[3], "rgba(190, 186, 186, 0.473)" , "white");
+                break;
+                case 116: Sound[4].play();
+                GraficClickButton(whiteButton[4], "rgba(190, 186, 186, 0.473)", "white");
+                break;
+                case 121: Sound[5].play();
+                GraficClickButton(whiteButton[5], "rgba(190, 186, 186, 0.473)" , "white");
+                break;
+                case 117: Sound[6].play();
+                GraficClickButton(whiteButton[6], "rgba(190, 186, 186, 0.473)" , "white");
+                break;
+                case 105: Sound[7].play();
+                GraficClickButton(whiteButton[7], "rgba(190, 186, 186, 0.473)" , "white");
+                break;
+                case 111: Sound[8].play();
+                GraficClickButton(whiteButton[8], "rgba(190, 186, 186, 0.473)" , "white");
+                break;
+                case 112: Sound[9].play();
+                GraficClickButton(whiteButton[9], "rgba(190, 186, 186, 0.473)" , "white");
+                break;
+                
+            }
+        }
+    
+        //rysowanie pieciolini w kanvasie
+        
+            function drawStaff( canvasElement)
+            {
+                canvasElement.beginPath();
+                for(let i = 0; i<5 ;i++)
+                {
+                canvasElement.moveTo(0,i*10+25);
+                canvasElement.lineTo(10000,i*10+25);
+                }
+                canvasElement.stroke();
+            }
+        
+        //rysowanie nut na pieciolini 
+        {
+            function drawNote(canvasElement , newTime , _charCode)
+            {
+                let noteX =0;
+                let noteHight = 25;
+               
+                
+                switch(_charCode)
+            {
+                case 113: noteX = 75;
+                break;
+                case 119: noteX = 70;
+                break;
+                case 101: noteX = 65;
+                break;
+                case 114:noteX = 60;
+                break;
+                case 116: noteX = 55;
+                break;
+                case 121: noteX = 50;
+                break;
+                case 117: noteX = 45;
+                break;
+                case 105:noteX = 40;
+                break;
+                case 111: noteX = 35;
+                break;
+                case 112: noteX = 30;
+                break;
+                default: noteX = -100;
+                break;
+            }
+               
+                canvasElement.beginPath();
+                canvasElement.fillStyle = "black";
+                canvasElement.arc(newTime/25,noteX,3,0,360*Math.PI/180);
+                canvasElement.fill();
+                canvasElement.closePath();   
+                canvasElement.beginPath();
+                    
+                canvasElement.moveTo(newTime/25+3,noteX); 
+                canvasElement.lineTo(newTime/25+3 ,noteX-noteHight);
+                canvasElement.stroke();
+                
+                
+               
+            }
+        }
+        </script>
 </html>
