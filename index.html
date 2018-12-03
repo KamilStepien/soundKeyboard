@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,700" rel="stylesheet">
     <title>Document</title>
 </head>
 <body>
@@ -24,28 +25,62 @@
                 <div class = "WhiteButton" id ="d1" > </div>
                 
         </div>
+        
     </div>  
+    <input type="submit" value = "Play" id = "_play" class = "buttons">
     
-    <input type="submit" value = "Play" id = "_play">
    
     <div class ="recordPath">
-            Record<input type="checkbox" value = "Record" id = "_checkboxRecord">
-            Play<input type="checkbox" value = "Record" id = "_checkboxPlay"><br>
+
+            <div class ="checkboxContiner">
+                    <label class="container">Record
+                            <input type="checkbox" checked="checked"  id = "_checkboxRecord">
+                            <span class="checkmark"></span>
+                    </label>
+                    <label class="container">Check
+                            <input type="checkbox"  id = "_checkboxPlay" >
+                            <span class="checkmark"></span>
+                    </label>
+            </div>
             <canvas width="10000" height="100" id="CanvasElemRecord"></canvas>
     </div>
     <div class ="recordPath">
-            Record<input type="checkbox" value = "Record" id = "_checkboxRecord1">
-            Play<input type="checkbox" value = "Record" id = "_checkboxPlay1"><br>
+            <div class ="checkboxContiner">
+                    <label class="container">Record
+                            <input type="checkbox"   id = "_checkboxRecord1">
+                            <span class="checkmark"></span>
+                    </label>
+                    <label class="container">Check
+                            <input type="checkbox"  id = "_checkboxPlay1" >
+                            <span class="checkmark"></span>
+                    </label>
+            </div>
             <canvas width="10000" height="100" id="CanvasElemRecord1"></canvas>
     </div>
     <div class ="recordPath">
-            Record<input type="checkbox" value = "Record" id = "_checkboxRecord2">
-            Play<input type="checkbox" value = "Record" id = "_checkboxPlay2"><br>
+            <div class ="checkboxContiner">
+                    <label class="container">Record
+                            <input type="checkbox"  id = "_checkboxRecord2">
+                            <span class="checkmark"></span>
+                    </label>
+                    <label class="container">Check
+                            <input type="checkbox"  id = "_checkboxPlay2" >
+                            <span class="checkmark"></span>
+                    </label>
+            </div>
             <canvas width="10000" height="100" id="CanvasElemRecord2"></canvas>
     </div>
     <div class ="recordPath">
-            Record<input type="checkbox" value = "Record" id = "_checkboxRecord3">
-            Play<input type="checkbox" value = "Record" id = "_checkboxPlay3"><br>
+            <div class ="checkboxContiner">
+                    <label class="container">Record
+                            <input type="checkbox"  id = "_checkboxRecord3">
+                            <span class="checkmark"></span>
+                    </label>
+                    <label class="container">Check
+                            <input type="checkbox"  id = "_checkboxPlay3" >
+                            <span class="checkmark"></span>
+                    </label>
+            </div>
             <canvas width="10000" height="100" id="CanvasElemRecord3"></canvas>
     </div>
    
@@ -91,6 +126,12 @@
         let checkboxPlay3 = document.querySelector("#_checkboxPlay3");
         let play = document.querySelector("#_play");
         
+
+        drawStaff(ctxRecord);
+        drawStaff(ctxRecord1);
+        drawStaff(ctxRecord2);
+        drawStaff(ctxRecord3);
+
         //zmienne odpowiedzialne za czas 
         let time;
         //zmiene przechowujące tablice z dziekami
@@ -146,6 +187,7 @@
         //odtwarzanie  zapisanych dzwieków
         play.addEventListener('click' ,  function(){
 
+         
             if(checkboxPlay.checked == true)
             SoundReader(path1);
             if(checkboxPlay1.checked == true)
@@ -200,10 +242,11 @@
          document.querySelector("#BoxWithButtons").addEventListener('click', (e) =>
         {  
             
-            
+        
             
             soundPlay(e.target.id);
             if(checkboxRecord.checked == true)
+            
             path1 = RecordPath(e.target.id , ctxRecord);
             if(checkboxRecord1.checked == true)
             path2 = RecordPath(e.target.id , ctxRecord1);
@@ -252,14 +295,15 @@
         }
     
         //funkcja odpowiedzialna z graficzne pokazanie klikniecia przycisku 
-        function GraficClickButton(idButton , colorButton , colorButtonDown)
+        function GraficClickButton(idButton)
         {
-            idButton.style.backgroundColor = colorButton;
+            idButton.style.backgroundColor = "rgba(190, 186, 186, 0.473)";
+            idButton.style.boxShadow = "0px 5px 10px 1px rgb(165, 169, 170)";
             
             setTimeout(()=>
             {
-                idButton.style.backgroundColor = colorButtonDown
-               
+                idButton.style.backgroundColor = "white"
+                idButton.style.boxShadow = "none";
             },200)
         }
     
@@ -272,34 +316,34 @@
             {
 
                 case "c": Sound[0].play();
-                GraficClickButton(whiteButton[0], "rgba(190, 186, 186, 0.473)" , "white");
+                GraficClickButton(whiteButton[0]);
                 break;
                 case "d": Sound[1].play();
-                GraficClickButton(whiteButton[1], "rgba(190, 186, 186, 0.473)" , "white");
+                GraficClickButton(whiteButton[1]);
                 break;
                 case "e": Sound[2].play();
-                GraficClickButton(whiteButton[2], "rgba(190, 186, 186, 0.473)" , "white");
+                GraficClickButton(whiteButton[2]);
                 break;
                 case "f": Sound[3].play();
-                GraficClickButton(whiteButton[3], "rgba(190, 186, 186, 0.473)" , "white");
+                GraficClickButton(whiteButton[3]);
                 break;
                 case "g": Sound[4].play();
-                GraficClickButton(whiteButton[4], "rgba(190, 186, 186, 0.473)", "white");
+                GraficClickButton(whiteButton[4]);
                 break;
                 case "a": Sound[5].play();
-                GraficClickButton(whiteButton[5], "rgba(190, 186, 186, 0.473)" , "white");
+                GraficClickButton(whiteButton[5]);
                 break;
                 case "h": Sound[6].play();
-                GraficClickButton(whiteButton[6], "rgba(190, 186, 186, 0.473)" , "white");
+                GraficClickButton(whiteButton[6]);
                 break;
                 case "C": Sound[7].play();
-                GraficClickButton(whiteButton[7], "rgba(190, 186, 186, 0.473)" , "white");
+                GraficClickButton(whiteButton[7]);
                 break;
                 case "c1": Sound[8].play();
-                GraficClickButton(whiteButton[8], "rgba(190, 186, 186, 0.473)" , "white");
+                GraficClickButton(whiteButton[8]);
                 break;
                 case "d1": Sound[9].play();
-                GraficClickButton(whiteButton[9], "rgba(190, 186, 186, 0.473)" , "white");
+                GraficClickButton(whiteButton[9]);
                 break;
 
              
