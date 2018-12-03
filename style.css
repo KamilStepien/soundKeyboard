@@ -1,7 +1,8 @@
 body
 {
     display: inline;
-    overflow: hidden;
+    
+    overflow-x: hidden;
 }
 
 
