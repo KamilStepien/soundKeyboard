@@ -126,7 +126,7 @@
         let checkboxPlay3 = document.querySelector("#_checkboxPlay3");
         let play = document.querySelector("#_play");
         
-
+        //rysowanie pięciolini w 4 elementach canvas
         drawStaff(ctxRecord);
         drawStaff(ctxRecord1);
         drawStaff(ctxRecord2);
@@ -187,7 +187,8 @@
         //odtwarzanie  zapisanych dzwieków
         play.addEventListener('click' ,  function(){
 
-         
+            
+            //sprwadzanie które scieżki mają zostać odtworzone
             if(checkboxPlay.checked == true)
             SoundReader(path1);
             if(checkboxPlay1.checked == true)
@@ -227,7 +228,9 @@
                 case 112: sound="d1";
                 break;
             }
+            //odtwarzanie  dzwieków
             soundPlay(sound);
+            //sprawdaznie do których sieżek mamy zapisywać
             if(checkboxRecord.checked == true)
             path1 = RecordPath(sound , ctxRecord);
             if(checkboxRecord1.checked == true)
@@ -368,33 +371,34 @@
         {
             function drawNote(canvasElement , newTime , _sound)
             {
-                let noteX =0;
+                //zmiena przechowująca pozucje x na ktorej zostanie narysowana nuta w canvasie
+                let noteY =0;
                 let noteHight = 25;
            
                 
                 switch(_sound)
             {
-                case "c": noteX = 75;
+                case "c": noteY = 75;
                 break;
-                case "d": noteX = 70;
+                case "d": noteY = 70;
                 break;
-                case "e": noteX = 65;
+                case "e": noteY = 65;
                 break;
-                case "f":noteX = 60;
+                case "f":noteY = 60;
                 break;
-                case "g": noteX = 55;
+                case "g": noteY = 55;
                 break;
-                case "a": noteX = 50;
+                case "a": noteY = 50;
                 break;
-                case "h": noteX = 45;
+                case "h": noteY = 45;
                 break;
-                case "C":noteX = 40;
+                case "C":noteY = 40;
                 break;
-                case "c1": noteX = 35;
+                case "c1": noteY = 35;
                 break;
-                case "d1": noteX = 30;
+                case "d1": noteY = 30;
                 break;
-                default: noteX = -100;
+                default: noteY = -100;
                 break;
 
                 
@@ -402,13 +406,13 @@
                
                 canvasElement.beginPath();
                 canvasElement.fillStyle = "black";
-                canvasElement.arc(newTime/25,noteX,3,0,360*Math.PI/180);
+                canvasElement.arc(newTime/25,noteY,3,0,360*Math.PI/180);
                 canvasElement.fill();
                 canvasElement.closePath();   
                 canvasElement.beginPath();
                     
-                canvasElement.moveTo(newTime/25+3,noteX); 
-                canvasElement.lineTo(newTime/25+3 ,noteX-noteHight);
+                canvasElement.moveTo(newTime/25+3,noteY); 
+                canvasElement.lineTo(newTime/25+3 ,noteY-noteHight);
                 canvasElement.stroke();
                 
                 
